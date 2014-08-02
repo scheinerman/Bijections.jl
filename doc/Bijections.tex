@@ -1,0 +1,137 @@
+\documentclass[12pt,oneside]{amsart}
+\usepackage{txfonts}
+\usepackage[margin=1in]{geometry}
+\usepackage{moreverb}
+\nofiles
+
+\title{Bijection type for Julia}
+\begin{document}
+\maketitle
+
+\section*{Fundamentals}
+
+This is documentation for a \verb|Bijection| datatype in Julia.  A
+\verb|Bijection| behaves like an extension of a \verb|Dict| but we
+ensure that the mapping from keys to values is one-to-one and we
+provide an efficient way to map backwards from values to keys.
+
+To get this module, do this (one time):
+\begin{verbatim}
+Pkg.clone("https://github.com/scheinerman/Bijections.jl.git")
+\end{verbatim}
+Then \verb|using Bijections| each session to load this module. 
+
+To create a \verb|Bijection| we do
+this:
+\begin{verbatim}
+julia> b = Bijection()
+\end{verbatim}
+in which the domain and range can be \verb|Any|. Alternatively, to
+specify the types of the domain and range, use something like this:
+\begin{verbatim}
+julia> b = Bijection{Int, String}()
+\end{verbatim}
+
+To add pairs to \verb|b|, we can use the usual square bracket
+notation:
+\begin{verbatim}
+julia> b[5] = "hello"
+julia> b[0] = "what?"
+\end{verbatim}
+We cannot now define \verb|b[0]| to have another value,
+nor can we define \verb|b[1]| to be an existing range element:
+\begin{verbatim}
+julia> b[5] = "bye"
+ERROR: One of x or y already in this Bijection
+ in setindex! at .....
+
+julia> b[1] = "hello"
+ERROR: One of x or y already in this Bijection
+ in setindex! at .....
+\end{verbatim}
+
+To get the value associated with a given key, we use the usual square
+brackets:
+\begin{verbatim}
+julia> print(b[0])
+what?
+\end{verbatim}
+
+Because distinct keys map to distinct values, we can invert from
+values to keys:
+\begin{verbatim}
+julia> inverse(b,"hello")
+5
+\end{verbatim}
+
+If we want to change the mapping of \verb|5| to \verb|hello| we need
+to first delete the pair and redefine \verb|b[5]| like this:
+\begin{verbatim}
+julia> delete!(b,5)
+[(0,"what?")]
+
+julia> b[5]="bye"
+"bye"
+\end{verbatim}
+
+
+
+\section*{User Methods}
+
+These are the methods that users should use. Other methods in the file
+support the implementation and need not be (should not be) used.
+
+
+\begin{itemize}
+\item \verb|Bijection|: This is the constructor used like this:
+\begin{verbatim}
+b = Bijection{S,T}()
+\end{verbatim}
+where \verb|S| and \verb|T| are types. One can also use 
+\verb|b = Bijection()| which is equivalent to
+\verb|b = Bijection{Any,Any}()|. 
+
+There is one other form: \verb|b = Bijection(x,y)| where \verb|x| and
+\verb|y| are any two objects. This sets up \verb|b| in which the
+domain elements have the same type as \verb|x| and whose range
+elements have the same type as \verb|y|. And this initializes \verb|b|
+with the pair \verb|(x,y)|. 
+
+
+\item \verb|setindex!|: This is used to add a key-value pair to a
+  bijection using the syntax \verb|b[x] = y|. If \verb|x| is already
+  in the domain or \verb|y| is already in the range, then an error is
+  raised. 
+
+\item \verb|getindex|: This is used to query the value associated with
+  a given key using the syntax \verb|b[x]|. If \verb|x| is not in the
+  domain, an error is raised.
+
+\item \verb|inverse|: This is used for the inverse mapping from values
+  to keys. Syntax is \verb|inverse(b,y)| to get the key \verb|x| such
+  that \verb|b[x]==y|.  If \verb|y| is not in the range, then an error
+  is raised.
+
+\item \verb|delete!|: This is used to remove a key-value pair from a
+  bijection. If \verb|x| is in the domain, use \verb|delete!(b,x)|. 
+
+\item \verb|length|: Give the number of elements in the
+  bijection. Syntax is \verb|length(b)|. 
+
+\item \verb|isempty|: Invoking \verb|isempty(b)| returns \verb|true|
+  is \verb|b| has no elements; otherwise it returns \verb|false|. 
+
+\item \verb|collect|: Returns the pairs in a bijection as an
+  \verb|Array| of tuples.
+
+\item \verb|domain|: Return, as an \verb|Array|, the elements of the
+  domain of a bijection (the keys).
+
+\item \verb|range|: Return, as an \verb|Array|, the elements of the
+  range of a bijection (the values). 
+
+\end{itemize}
+
+
+
+\end{document}
