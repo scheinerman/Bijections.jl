@@ -5,6 +5,9 @@ This package provides a `Bijection` data type for Julia. Please see
 the accompanying file `Bijections.pdf` in the `doc` folder for full
 details.
 
+**Warning!** I have not updated the documentation for `Bijections`
+since upgrading to Julia 0.4.
+
 Synopsis
 --------
 
