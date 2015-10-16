@@ -30,7 +30,7 @@ julia> b[1] = "hello"
 julia> b[2] = "bye"
 "bye"
 ```
-Notice, however, that is we add a new key with a value that already
+Notice, however, that if we add a new key with a value that already
 exists in the `Bijection` an error ensues:
 ```julia
 julia> b[3] = "hello"
@@ -56,7 +56,7 @@ julia> b[1] = "ciao"
 ## Using a `Bijection`
 
 To access a value associated with a given key, we use the same syntax
-as for `Dict`s:
+as for a `Dict`:
 ```julia
 julia> b[1]
 "ciao"
@@ -137,5 +137,4 @@ that reverses key-value pairs in `b`
   inverse but that is tied to `b` so that any modification of one
   affects the other.
 
-* We ought to be able to iterate over `Bijections`, but at the moment
-  that doesn't work.
+* A `Bijection` ought to be iterable, but that's not implemented yet.
