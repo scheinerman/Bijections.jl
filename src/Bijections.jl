@@ -5,10 +5,10 @@ module Bijections
 
 import Base.delete!, Base.length
 import Base.isempty, Base.collect, Base.setindex!, Base.getindex
-import Base.show, Base.display
+import Base.show, Base.display, Base.call
 
 export Bijection, setindex!, getindex, inverse, length
-export isempty, collect, domain, image, show, display
+export isempty, collect, domain, image, show, display, call
 
 type Bijection{S,T} <: Associative{S,T}
     domain::Set{S}     # domain of the bijection
@@ -39,8 +39,8 @@ function Bijection{S,T}(x::S, y::T)
 end
 
 # Decent way to print out a bijection
-function show(io::IO,b::Bijection)
-    print(io,"Bijection (with $(length(b)) pairs)")
+function show{S,T}(io::IO,b::Bijection{S,T})
+    print(io,"Bijection{$S,$T} (with $(length(b)) pairs)")
 end
 
 display(b::Bijection) = show(b)
@@ -78,6 +78,15 @@ end
 function inverse(b::Bijection, y)
     b.finv[y]
 end
+
+# the notation b(y) is a shortcut for inverse(b,y)
+"""
+For a `Bijection` `b` we may use `b(y)` to return the value
+`x` such that `b[x]==y`. In other words, this is a short cut
+for `inverse(b,y)`.
+"""
+call(b::Bijection, y) = inverse(b,y)
+
 
 # Remove a pair (x,y) from a bijection
 """
@@ -118,18 +127,14 @@ end
 
 # return the domain as an array of values
 """
-`domain(b::Bijection)` returns the list of input values for `b`.
+`domain(b::Bijection)` returns the set of input values for `b`.
 """
-function domain(b::Bijection)
-    collect(b.domain)
-end
+domain(b::Bijection) = b.domain
 
 # return the image as an array of values
 """
-`image(b::Bijection)` returns the list of output values of `b`.
+`image(b::Bijection)` returns the set of output values of `b`.
 """
-function image(b::Bijection)
-    collect(b.range)
-end
+image(b::Bijection) = b.range
 
 end # end of module Bijections
