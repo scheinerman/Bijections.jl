@@ -15,6 +15,9 @@ following ways:
 * `b = Bijection()`: This gives a new `Bijection` in which the keys
 and values are of `Any` type.
 
+* `b = Bijection{S,T}()`: This gives a new `Bijection` in which the 
+  keys are of type `S` and the values are of type `T`.
+
 * `b = Bijection(x,y)`: This gives a new `Bijection` in which the keys
   are type `typeof(x)`, the values are type `typeof(y)` and the
   key-value pair `(x,y)` is inserted into the `Bijection`.
