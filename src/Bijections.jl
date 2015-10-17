@@ -117,13 +117,9 @@ function isempty(b::Bijection)
     length(b) == 0
 end
 
-# convert a bijection into an array of ordered pairs
-"""
-`collect(b::Bijection)` presents the bijection as a list of ordered pairs.
-"""
-function collect(b::Bijection)
-    [ (x, b[x]) for x in b.domain ]
-end
+# convert a bijection into an array of ordered pairs. This is
+# compatible with what collect does for Dict's.
+collect(b::Bijection) = collect(b.f)
 
 # return the domain as an array of values
 """
