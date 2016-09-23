@@ -85,7 +85,8 @@ For a `Bijection` `b` we may use `b(y)` to return the value
 `x` such that `b[x]==y`. In other words, this is a short cut
 for `inverse(b,y)`.
 """
-call(b::Bijection, y) = inverse(b,y)
+(b::Bijection)(y) = inverse(b,y)
+# call(b::Bijection, y) = inverse(b,y)
 
 
 # Remove a pair (x,y) from a bijection
