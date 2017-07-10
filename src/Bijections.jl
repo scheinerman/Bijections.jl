@@ -5,10 +5,10 @@ module Bijections
 
 import Base.delete!, Base.length
 import Base.isempty, Base.collect, Base.setindex!, Base.getindex
-import Base.show, Base.display, Base.call
+import Base.show, Base.display
 
 export Bijection, setindex!, getindex, inverse, length
-export isempty, collect, domain, image, show, display, call
+export isempty, collect, domain, image, show, display
 
 type Bijection{S,T} <: Associative{S,T}
     domain::Set{S}     # domain of the bijection
@@ -86,7 +86,6 @@ For a `Bijection` `b` we may use `b(y)` to return the value
 for `inverse(b,y)`.
 """
 (b::Bijection)(y) = inverse(b,y)
-# call(b::Bijection, y) = inverse(b,y)
 
 
 # Remove a pair (x,y) from a bijection
