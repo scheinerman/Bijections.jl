@@ -10,12 +10,12 @@ import Base.show, Base.display
 export Bijection, setindex!, getindex, inverse, length
 export isempty, collect, domain, image, show, display
 
-type Bijection{S,T} <: Associative{S,T}
+struct Bijection{S,T} <: Associative{S,T}
     domain::Set{S}     # domain of the bijection
     range::Set{T}      # range of the bijection
     f::Dict{S,T}       # map from domain to range
     finv::Dict{T,S}    # inverse map from range to domain
-    function Bijection()
+    function Bijection{S,T}() where {S,T}
         D = Set{S}()
         R = Set{T}()
         F = Dict{S,T}()
