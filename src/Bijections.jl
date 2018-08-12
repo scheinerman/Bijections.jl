@@ -10,7 +10,7 @@ import Base.show, Base.display
 export Bijection, setindex!, getindex, inverse, length
 export isempty, collect, domain, image, show, display
 
-struct Bijection{S,T} <: Associative{S,T}
+struct Bijection{S,T} <: AbstractDict{S,T}
     domain::Set{S}     # domain of the bijection
     range::Set{T}      # range of the bijection
     f::Dict{S,T}       # map from domain to range
@@ -32,14 +32,14 @@ end
 
 # Create a new bijection given two values to start off. Domain and
 # range types are inferred from x and y.
-function Bijection{S,T}(x::S, y::T)
+function Bijection(x::S, y::T) where {S,T}
     b = Bijection{S,T}()
     b[x] = y
     return b
 end
 
 # Decent way to print out a bijection
-function show{S,T}(io::IO,b::Bijection{S,T})
+function show(io::IO,b::Bijection{S,T}) where {S,T}
     print(io,"Bijection{$S,$T} (with $(length(b)) pairs)")
 end
 
