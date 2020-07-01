@@ -1,6 +1,6 @@
 # Bijections
 
-This package provides a `Bijection` data type for Julia. 
+This package provides a `Bijection` data type for Julia.
 
 
 A `Dict` in Julia is not one-to-one. Two different keys might have the
@@ -112,7 +112,7 @@ key-value pairs:
 ```julia
 julia> collect(b)
 2-element Array{Tuple{Any,Any},1}:
- (2,"bye") 
+ (2,"bye")
  (1,"ciao")
 ```
 
