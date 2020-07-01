@@ -1,5 +1,12 @@
 # Bijections
 
+[![Build Status](https://travis-ci.org/scheinerman/Bijections.jl.svg?branch=master)](https://travis-ci.org/scheinerman/Bijections.jl)
+
+[![Coverage Status](https://coveralls.io/repos/scheinerman/Bijections.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/scheinerman/Bijections.jl?branch=master)
+
+[![codecov.io](http://codecov.io/github/scheinerman/Bijections.jl/coverage.svg?branch=master)](http://codecov.io/github/scheinerman/Bijections.jl?branch=master)
+
+
 This package provides a `Bijection` data type for Julia.
 
 
@@ -15,7 +22,7 @@ following ways:
 * `b = Bijection()`: This gives a new `Bijection` in which the keys
 and values are of `Any` type.
 
-* `b = Bijection{S,T}()`: This gives a new `Bijection` in which the 
+* `b = Bijection{S,T}()`: This gives a new `Bijection` in which the
   keys are of type `S` and the values are of type `T`.
 
 * `b = Bijection(x,y)`: This gives a new `Bijection` in which the keys
