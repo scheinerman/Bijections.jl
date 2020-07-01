@@ -2,12 +2,12 @@ module Bijections
 
 import Base.delete!, Base.length
 import Base.isempty, Base.collect, Base.setindex!, Base.getindex
-import Base.show, Base.display
+import Base.show, Base.display, Base.==
 
 export Bijection, setindex!, getindex, inverse, length
 export isempty, collect, domain, image, show, display
 
-struct Bijection{S,T} <: AbstractDict{S,T}
+mutable struct Bijection{S,T} <: AbstractDict{S,T}
     domain::Set{S}     # domain of the bijection
     range::Set{T}      # range of the bijection
     f::Dict{S,T}       # map from domain to range
@@ -41,6 +41,10 @@ function show(io::IO,b::Bijection{S,T}) where {S,T}
 end
 
 display(b::Bijection) = show(b)
+
+# equality checking
+==(a::Bijection, b::Bijection) = a.f == b.f
+
 
 # Add a relation to a bijection: b[x] = y
 """
@@ -122,12 +126,15 @@ collect(b::Bijection) = collect(b.f)
 """
 `domain(b::Bijection)` returns the set of input values for `b`.
 """
-domain(b::Bijection) = b.domain
+domain(b::Bijection) = copy(b.domain)
 
 # return the image as an array of values
 """
 `image(b::Bijection)` returns the set of output values of `b`.
 """
-image(b::Bijection) = b.range
+image(b::Bijection) = copy(b.range)
+
+
+include("inversion.jl")
 
 end # end of module Bijections

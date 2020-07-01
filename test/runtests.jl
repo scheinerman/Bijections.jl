@@ -16,3 +16,15 @@ b[2] = "Bye"
 
 @test length(b) == 2
 @test !isempty(b)
+
+
+bb = inv(b)
+@test bb["Bye"] == 2
+bb["xx"] = 4
+@test length(bb) != length(b)
+
+bb = active_inv(b)
+@test bb["Bye"] == 2
+b[0] = "Ciao"
+@test bb["Ciao"] == 0
+@test inv(bb) == b

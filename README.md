@@ -100,6 +100,67 @@ julia> b("hello")
 ERROR: KeyError: hello not found
 ```
 
+## Creating an inverse `Bijection`
+
+There are two functions that take a `Bijection` and return a new
+`Bijection` that is the functional inverse of the original:
+`inv` and `active_inv`.
+
+#### Independent inverse: `inv`
+Given a `Bijection` `b`, calling `inv(b)` creates a new `Bijection`
+that is an inverse of `b`. The new `Bijection` is completely independent
+of the original, `b`. Changes to one do *not* affect the other:
+```
+julia> b = Bijection{Int,String}()
+Bijection{Int64,String} (with 0 pairs)
+julia> b[1] = "alpha"
+"alpha"
+
+julia> b[2] = "beta"
+"beta"
+
+julia> bb = inv(b)
+Bijection{String,Int64} (with 2 pairs)
+
+julia> bb["alpha"]
+1
+
+julia> bb["alpha"]
+1
+
+julia> b[3] = "gamma"
+"gamma"
+
+julia> bb["gamma"]
+ERROR: KeyError: key "gamma" not found
+```
+
+#### Active inverse: `active_inv`
+
+The `active_inv` function also creates an inverse `Bijection`, but in this
+case the original and the inverse are actively tied together.
+That is, modification of one immediately affects the other.
+The two `Bijection`s remain inverses no matter how either is modified.
+
+```
+julia> b = Bijection{Int,String}()
+Bijection{Int64,String} (with 0 pairs)
+julia> b[1] = "alpha"
+"alpha"
+
+julia> b[2] = "beta"
+"beta"
+
+julia> bb = active_inv(b)
+Bijection{String,Int64} (with 2 pairs)
+julia> b[3] = "gamma"
+"gamma"
+
+julia> bb["gamma"]
+3
+```
+
+
 ## Inspection
 
 Thinking of a `Bijection` as a mapping between finite sets, we
@@ -137,14 +198,5 @@ false
 ```
 
 ## To do list
-
-These are features I may get around to adding:
-
-* Create an `inv(b)` function which creates a new `Bijection`
-that reverses key-value pairs in `b`
-
-* Create an `active_inv(b)` function that, like `inv`, creates an
-  inverse but that is tied to `b` so that any modification of one
-  affects the other.
 
 * A `Bijection` ought to be iterable, but that's not implemented yet.
