@@ -9,8 +9,7 @@ See also `active_inv`.
 """
 function inv(b::Bijection{S,T}) where {S,T}
     bb = Bijection{T,S}()
-    for x in b.domain
-        y = b[x]
+    for (x,y) in b
         bb[y] = x
     end
     return bb
@@ -29,10 +28,5 @@ perpetuity.
 See also `inv`.
 """
 function active_inv(b::Bijection{S,T}) where {S,T}
-    bb = Bijection{T,S}()
-    bb.domain = b.range
-    bb.range = b.domain
-    bb.f = b.finv
-    bb.finv = b.f
-    return bb
+    return Bijection{T,S}(b.range, b.domain, b.finv, b.f)
 end

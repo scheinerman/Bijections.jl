@@ -28,3 +28,11 @@ bb = active_inv(b)
 b[0] = "Ciao"
 @test bb["Ciao"] == 0
 @test inv(bb) == b
+
+# iteration test
+dom_list = [x for (x,y) in b]
+@test Set(dom_list) == domain(b)
+
+# conversion to a Dict
+d = Dict(b)
+@test d[0] == b[0]

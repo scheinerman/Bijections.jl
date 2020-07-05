@@ -1,22 +1,31 @@
 module Bijections
 
-import Base.delete!, Base.length
-import Base.isempty, Base.collect, Base.setindex!, Base.getindex
-import Base.show, Base.display, Base.==
+import Base: delete!, length, isempty, collect, setindex!, getindex
+import Base: show, display, ==, iterate
+
+# import Base.isempty, Base.collect, Base.setindex!, Base.getindex
+# import Base.show, Base.display, Base.==
 
 export Bijection, setindex!, getindex, inverse, length
 export isempty, collect, domain, image, show, display
 
-mutable struct Bijection{S,T} <: AbstractDict{S,T}
+struct Bijection{S,T} <: AbstractDict{S,T}
     domain::Set{S}     # domain of the bijection
     range::Set{T}      # range of the bijection
     f::Dict{S,T}       # map from domain to range
     finv::Dict{T,S}    # inverse map from range to domain
+
+    # standard constructor
     function Bijection{S,T}() where {S,T}
         D = Set{S}()
         R = Set{T}()
         F = Dict{S,T}()
         G = Dict{T,S}()
+        new(D,R,F,G)
+    end
+
+    # private, unsafe constructor
+    function Bijection{S,T}(D::Set{S},R::Set{T},F::Dict{S,T},G::Dict{T,S}) where {S,T}
         new(D,R,F,G)
     end
 end
@@ -133,6 +142,14 @@ domain(b::Bijection) = copy(b.domain)
 `image(b::Bijection)` returns the set of output values of `b`.
 """
 image(b::Bijection) = copy(b.range)
+
+
+iterate(b::Bijection{S,T},s::Int) where {S,T} = iterate(b.f,s)
+iterate(b::Bijection{S,T}) where {S,T} = iterate(b.f)
+
+# convert a Bijection into a Dict; probably not useful 
+Dict(b::Bijection) = copy(b.f)
+
 
 
 include("inversion.jl")

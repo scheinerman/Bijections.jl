@@ -106,10 +106,10 @@ There are two functions that take a `Bijection` and return a new
 `Bijection` that is the functional inverse of the original:
 `inv` and `active_inv`.
 
-#### Independent inverse: `inv`
+### Independent inverse: `inv`
 Given a `Bijection` `b`, calling `inv(b)` creates a new `Bijection`
-that is an inverse of `b`. The new `Bijection` is completely independent
-of the original, `b`. Changes to one do *not* affect the other:
+that is the inverse of `b`. The new `Bijection` is completely independent
+of the original, `b`. Changes to one do not affect the other:
 ```
 julia> b = Bijection{Int,String}()
 Bijection{Int64,String} (with 0 pairs)
@@ -135,7 +135,7 @@ julia> bb["gamma"]
 ERROR: KeyError: key "gamma" not found
 ```
 
-#### Active inverse: `active_inv`
+### Active inverse: `active_inv`
 
 The `active_inv` function also creates an inverse `Bijection`, but in this
 case the original and the inverse are actively tied together.
@@ -159,6 +159,18 @@ julia> b[3] = "gamma"
 julia> bb["gamma"]
 3
 ```
+
+## Iteration
+
+`Bijection`s can be used in a `for` statement just like Julia
+dictionaries:
+```
+julia> for (x,y) in b; println("$x --> $y"); end
+2 --> beta
+3 --> gamma
+1 --> alpha
+```
+
 
 
 ## Inspection
@@ -196,7 +208,3 @@ contains no pairs:
 julia> isempty(b)
 false
 ```
-
-## To do list
-
-* A `Bijection` ought to be iterable, but that's not implemented yet.
