@@ -28,6 +28,10 @@ and values are of `Any` type.
 * `b = Bijection(x,y)`: This gives a new `Bijection` in which the keys
   are type `typeof(x)`, the values are type `typeof(y)` and the
   key-value pair `(x,y)` is inserted into the `Bijection`.
+  
+* `b = Bijection(dict::AbstractDict{S, T})`: This gives a new `Bijection` in which the keys
+  are type `S`, the values are type `T` and all
+  key-value pairs in `dict` are inserted into the `Bijection`.
 
 ## Adding and deleting pairs
 
