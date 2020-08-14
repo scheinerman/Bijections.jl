@@ -49,6 +49,7 @@ function Bijection(dict::AbstractDict{S, T}) where S where T
     b = Bijection{S,T}()
     for (k, v) in pairs(dict)
         b[k] = v
+    end
     return b
 end
 Bijection(b::Bijection) = b
