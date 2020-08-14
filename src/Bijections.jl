@@ -44,6 +44,15 @@ function Bijection(x::S, y::T) where {S,T}
     return b
 end
 
+# Convert an `AbstractDict` to a `Bijection`
+function Bijection(dict::AbstractDict{S, T}) where S where T
+    b = Bijection{S,T}()
+    for (k, v) in pairs(dict)
+        b[k] = v
+    return b
+end
+Bijection(b::Bijection) = b
+
 # Decent way to print out a bijection
 function show(io::IO,b::Bijection{S,T}) where {S,T}
     print(io,"Bijection{$S,$T} (with $(length(b)) pairs)")
