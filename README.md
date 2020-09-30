@@ -1,10 +1,6 @@
 # Bijections
 
-[![Build Status](https://travis-ci.org/scheinerman/Bijections.jl.svg?branch=master)](https://travis-ci.org/scheinerman/Bijections.jl)
-
-[![Coverage Status](https://coveralls.io/repos/scheinerman/Bijections.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/scheinerman/Bijections.jl?branch=master)
-
-[![codecov.io](http://codecov.io/github/scheinerman/Bijections.jl/coverage.svg?branch=master)](http://codecov.io/github/scheinerman/Bijections.jl?branch=master)
+[![Build Status](https://travis-ci.com/scheinerman/Bijections.jl.svg?branch=master)](https://travis-ci.com/scheinerman/Bijections.jl)
 
 
 This package provides a `Bijection` data type for Julia.
