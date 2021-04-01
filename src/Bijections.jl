@@ -1,6 +1,6 @@
 module Bijections
 
-import Base: delete!, length, isempty, collect, setindex!, getindex
+import Base: delete!, length, isempty, collect, setindex!, getindex, get
 import Base: show, display, ==, iterate
 
 # import Base.isempty, Base.collect, Base.setindex!, Base.getindex
@@ -161,6 +161,13 @@ iterate(b::Bijection{S,T}) where {S,T} = iterate(b.f)
 Dict(b::Bijection) = copy(b.f)
 
 
+# Check if this bijection is empty
+"""
+`get(b::Bijection, key, default)` returns b[key] if it exists and returns default otherwise.
+"""
+function get(b::Bijection, key, default)
+    get(b.f, key, default)
+end
 
 include("inversion.jl")
 

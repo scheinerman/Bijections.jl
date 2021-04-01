@@ -4,6 +4,9 @@ using Bijections
 b = Bijection(3,"Hello")
 @test b[3] == "Hello"
 @test b("Hello") == 3
+@test haskey(b, 3)
+@test !haskey(b, 4)
+@test !haskey(b, "Hello")
 
 b[2] = "Bye"
 @test b[2] == "Bye"
