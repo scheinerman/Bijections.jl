@@ -1,6 +1,5 @@
 # Bijections
 
-[![Build Status](https://travis-ci.com/scheinerman/Bijections.jl.svg?branch=master)](https://travis-ci.com/scheinerman/Bijections.jl)
 
 
 This package provides a `Bijection` data type for Julia.
@@ -43,6 +42,9 @@ julia> b[2] = "bye"
 Notice, however, that if we add a new key with a value that already
 exists in the `Bijection` an error ensues:
 ```
+julia> b = Bijection{Int, String}()
+Bijection Dict{Int64, String}()
+
 julia> b[3] = "hello"
 ERROR: One of x or y already in this Bijection
 ```
@@ -57,7 +59,8 @@ If we wish to change the value associated with a given key, the pair
 must first be deleted using `delete!`:
 ```
 julia> delete!(b,1)
-Bijection{Any,Any} (with 1 pairs)
+Bijection Dict{Int64, String} with 1 entry:
+  2 => "bye"
 
 julia> b[1] = "ciao"
 "ciao"
@@ -112,7 +115,8 @@ that is the inverse of `b`. The new `Bijection` is completely independent
 of the original, `b`. Changes to one do not affect the other:
 ```
 julia> b = Bijection{Int,String}()
-Bijection{Int64,String} (with 0 pairs)
+Bijection Dict{Int64, String}()
+
 julia> b[1] = "alpha"
 "alpha"
 
@@ -120,7 +124,9 @@ julia> b[2] = "beta"
 "beta"
 
 julia> bb = inv(b)
-Bijection{String,Int64} (with 2 pairs)
+Bijection Dict{String, Int64} with 2 entries:
+  "alpha" => 1
+  "beta"  => 2
 
 julia> bb["alpha"]
 1
@@ -144,7 +150,8 @@ The two `Bijection`s remain inverses no matter how either is modified.
 
 ```
 julia> b = Bijection{Int,String}()
-Bijection{Int64,String} (with 0 pairs)
+Bijection Dict{Int64, String}()
+
 julia> b[1] = "alpha"
 "alpha"
 
@@ -152,7 +159,10 @@ julia> b[2] = "beta"
 "beta"
 
 julia> bb = active_inv(b)
-Bijection{String,Int64} (with 2 pairs)
+Bijection Dict{String, Int64} with 2 entries:
+  "alpha" => 1
+  "beta"  => 2
+  
 julia> b[3] = "gamma"
 "gamma"
 
