@@ -1,8 +1,6 @@
 # Bijections
 
-
-
-This package provides a `Bijection` data type for Julia.
+A `Bijection` data type for Julia.
 
 
 A `Dict` in Julia is not one-to-one. Two different keys might have the
@@ -27,6 +25,8 @@ and values are of `Any` type.
 * `b = Bijection(dict::AbstractDict{S, T})`: This gives a new `Bijection` in which the keys
   are type `S`, the values are type `T` and all
   key-value pairs in `dict` are inserted into the `Bijection`.
+
+* `b = Bijection(pair_list::Vector{Pair{S, T}})`: Create a new `Bijection` using a list of pairs.
 
 ## Adding and deleting pairs
 

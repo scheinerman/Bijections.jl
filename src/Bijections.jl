@@ -31,6 +31,14 @@ struct Bijection{S,T} <: AbstractDict{S,T}
 end
 
 # Default constructor is a bijection from Any to Any
+"""
+Construct a new `Bijection`. 
+
+* `Bijection{S,T}()` creates an empty `Bijection` from objects of type `S` to objects of type `T`. If `S` and `T` are omitted, then we have `Bijection{Any,Any}`.
+* `Bijection(x::S, y::T)` creates a new `Bijection` initialized with `x` mapping to `y`.
+* `Bijection(dict::Dict{S,T})` creates a new `Bijection` based on the mapping in `dict`. 
+* `Bijection(pair_list::Vector{Pair{S,T}})` creates a new `Bijection` using the key/value pairs in `pair_list`. 
+"""
 function Bijection()
     Bijection{Any,Any}()
 end
@@ -53,6 +61,12 @@ function Bijection(dict::AbstractDict{S, T}) where S where T
     return b
 end
 Bijection(b::Bijection) = b
+
+## Convert a list of pairs to a Bijection
+function Bijection(pair_list::Vector{Pair{S,T}}) where {S,T}
+    d = Dict{S,T}(pair_list)
+    Bijection(d)
+end
 
 # Decent way to print out a bijection
 function show(io::IO,b::Bijection{S,T}) where {S,T}
@@ -100,11 +114,6 @@ function inverse(b::Bijection, y)
 end
 
 # the notation b(y) is a shortcut for inverse(b,y)
-"""
-For a `Bijection` `b` we may use `b(y)` to return the value
-`x` such that `b[x]==y`. In other words, this is a short cut
-for `inverse(b,y)`.
-"""
 (b::Bijection)(y) = inverse(b,y)
 
 

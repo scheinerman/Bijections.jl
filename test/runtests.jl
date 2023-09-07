@@ -39,3 +39,7 @@ dom_list = [x for (x,y) in b]
 # conversion to a Dict
 d = Dict(b)
 @test d[0] == b[0]
+@test Bijection(d) == b
+
+# check pair constructor
+@test Bijection(collect(b)) == b
