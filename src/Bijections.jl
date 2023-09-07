@@ -21,12 +21,12 @@ struct Bijection{S,T} <: AbstractDict{S,T}
         R = Set{T}()
         F = Dict{S,T}()
         G = Dict{T,S}()
-        new(D,R,F,G)
+        new(D, R, F, G)
     end
 
     # private, unsafe constructor
-    function Bijection{S,T}(D::Set{S},R::Set{T},F::Dict{S,T},G::Dict{T,S}) where {S,T}
-        new(D,R,F,G)
+    function Bijection{S,T}(D::Set{S}, R::Set{T}, F::Dict{S,T}, G::Dict{T,S}) where {S,T}
+        new(D, R, F, G)
     end
 end
 
@@ -53,24 +53,44 @@ function Bijection(x::S, y::T) where {S,T}
 end
 
 # Convert an `AbstractDict` to a `Bijection`
-function Bijection(dict::AbstractDict{S, T}) where S where T
+function Bijection(dict::AbstractDict{S,T}) where {S,T}
+    vals = values(dict)
+    if length(dict) != length(unique(vals))
+        error("Repeated value found in dict")
+    end
+
     b = Bijection{S,T}()
     for (k, v) in pairs(dict)
         b[k] = v
     end
     return b
 end
-Bijection(b::Bijection) = b
+
+# Copy constructor
+Bijection(b::Bijection) = Bijection(collect(b))
 
 ## Convert a list of pairs to a Bijection
 function Bijection(pair_list::Vector{Pair{S,T}}) where {S,T}
-    d = Dict{S,T}(pair_list)
-    Bijection(d)
+    p = unique(pair_list)  # remove duplicate pairs
+    n = length(p)
+
+    xs = first.(p)
+    ys = last.(p)
+    if length(xs) != length(unique(xs)) || length(ys) != length(unique(ys))
+        error("Repeated key or value found in pair list")
+    end
+
+    b = Bijection{S,T}()
+    for xy in p
+        x, y = xy
+        b[x] = y
+    end
+    return b
 end
 
 # Decent way to print out a bijection
-function show(io::IO,b::Bijection{S,T}) where {S,T}
-    print(io,"Bijection{$S,$T} (with $(length(b)) pairs)")
+function show(io::IO, b::Bijection{S,T}) where {S,T}
+    print(io, "Bijection{$S,$T} (with $(length(b)) pairs)")
 end
 
 display(b::Bijection) = (print("Bijection "); display(b.f))
@@ -84,11 +104,11 @@ display(b::Bijection) = (print("Bijection "); display(b.f))
 For a `Bijection` `b` use the syntax `b[x]=y` to add `(x,y)` to `b`.
 """
 function setindex!(b::Bijection, y, x)
-    if in(x,b.domain) || in(y,b.range)
+    if in(x, b.domain) || in(y, b.range)
         error("One of x or y already in this Bijection")
     else
-        push!(b.domain,x)
-        push!(b.range,y)
+        push!(b.domain, x)
+        push!(b.range, y)
         b.f[x] = y
         b.finv[y] = x
     end
@@ -114,17 +134,17 @@ function inverse(b::Bijection, y)
 end
 
 # the notation b(y) is a shortcut for inverse(b,y)
-(b::Bijection)(y) = inverse(b,y)
+(b::Bijection)(y) = inverse(b, y)
 
 
 # Remove a pair (x,y) from a bijection
 """
-`delete!(b::Bijection,x)` deletes the ordered pair `(x,b[x])` from `b`.
+`delete!(b::Bijection,x)` deletes the ordered pair `(x,b[x])` from `b`.1==
 """
 function delete!(b::Bijection, x)
     y = b[x]
-    delete!(b.domain,x)
-    delete!(b.range,y)
+    delete!(b.domain, x)
+    delete!(b.range, y)
     delete!(b.f, x)
     delete!(b.finv, y)
     return b
@@ -163,7 +183,7 @@ domain(b::Bijection) = copy(b.domain)
 image(b::Bijection) = copy(b.range)
 
 
-iterate(b::Bijection{S,T},s::Int) where {S,T} = iterate(b.f,s)
+iterate(b::Bijection{S,T}, s::Int) where {S,T} = iterate(b.f, s)
 iterate(b::Bijection{S,T}) where {S,T} = iterate(b.f)
 
 # convert a Bijection into a Dict; probably not useful 
