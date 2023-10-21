@@ -199,5 +199,6 @@ function get(b::Bijection, key, default)
 end
 
 include("inversion.jl")
+include("composition.jl")
 
 end # end of module Bijections

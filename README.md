@@ -218,3 +218,21 @@ contains no pairs:
 julia> isempty(b)
 false
 ```
+
+
+## Composition
+
+Given two `Bijection`s `a` and `b`, their composition `c = a*b` is a new 
+`Bijection` with the property that `c[x] = a[b[x]]` for all `x` in the 
+domain of `b`.
+
+```
+julia> a = Bijection{Int,Int}(); a[1] = 10; a[2] = 20;
+
+julia> b = Bijection{String,Int}(); b["hi"] = 1; b["bye"] = 2;
+
+julia> c = a * b;
+
+julia> c["hi"]
+10
+```
