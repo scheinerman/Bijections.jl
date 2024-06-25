@@ -93,8 +93,6 @@ function show(io::IO, b::Bijection{S,T}) where {S,T}
     print(io, "Bijection{$S,$T} (with $(length(b)) pairs)")
 end
 
-display(b::Bijection) = (print("Bijection "); display(b.f))
-
 # equality checking
 ==(a::Bijection, b::Bijection) = a.f == b.f
 
