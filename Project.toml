@@ -1,6 +1,6 @@
 name = "Bijections"
 uuid = "e2ed5e7c-b2de-5872-ae92-c73ca462fb04"
-version = "0.1.8"
+version = "0.1.9"
 
 [compat]
 julia = "1"

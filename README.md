@@ -4,8 +4,8 @@ A `Bijection` data type for Julia.
 
 
 A `Dict` in Julia is not one-to-one. Two different keys might have the
-same value. This data structure behaves just like a `Dict` except it
-blocks assigning the same value to two different keys.
+same value. A `Bijection` data structure behaves just like a `Dict` except it
+prevents assigning the same value to two different keys.
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ and values are of `Any` type.
 
 * `b = Bijection(pair_list::Vector{Pair{S, T}})`: Create a new `Bijection` using a list of pairs.
 
-## Adding and deleting pairs
+## Adding and Deleting Pairs
 
 Once a `Bijection`, `b`, is created, we add a new key-value pair in
 the same manner as with a `Dict`:
@@ -103,7 +103,7 @@ julia> b("hello")
 ERROR: KeyError: hello not found
 ```
 
-## Creating an inverse `Bijection`
+## Creating an Inverse `Bijection`
 
 There are two functions that take a `Bijection` and return a new
 `Bijection` that is the functional inverse of the original:
