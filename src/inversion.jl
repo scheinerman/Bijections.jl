@@ -9,7 +9,7 @@ See also `active_inv`.
 """
 function inv(b::Bijection{S,T}) where {S,T}
     bb = Bijection{T,S}()
-    for (x,y) in b
+    for (x, y) in b
         bb[y] = x
     end
     return bb

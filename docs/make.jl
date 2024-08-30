@@ -2,4 +2,4 @@
 # julia --color=yes --project make.jl
 
 using Documenter, Bijections
-makedocs(; sitename="Bijections")
+makedocs(; sitename = "Bijections")
