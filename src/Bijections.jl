@@ -185,7 +185,7 @@ iterate(b::Bijection{S,T}, s::Int) where {S,T} = iterate(b.f, s)
 iterate(b::Bijection{S,T}) where {S,T} = iterate(b.f)
 
 # convert a Bijection into a Dict; probably not useful 
-Dict(b::Bijection) = copy(b.f)
+Base.Dict(b::Bijection) = copy(b.f)
 
 
 # Check if this bijection is empty
