@@ -1,5 +1,3 @@
-import Base.inv
-
 """
 `inv(b::Bijection)` creates a new `Bijection` that is the
 inverse of `b`.
@@ -15,9 +13,6 @@ function inv(b::Bijection{S,T}) where {S,T}
     return bb
 end
 
-
-export active_inv
-
 """
 `active_inv(b::Bijection)` creates a `Bijection` that is the
 inverse of `b`. The original `b` and the new `Bijection` returned
@@ -28,5 +23,5 @@ perpetuity.
 See also `inv`.
 """
 function active_inv(b::Bijection{S,T}) where {S,T}
-    return Bijection{T,S}(b.range, b.domain, b.finv, b.f)
+    return Bijection{T,S}(b.finv, b.f)
 end

@@ -14,13 +14,11 @@ using Bijections
     @test b("Bye") == 2
     @test inverse(b, "Bye") == 2
 
-
-    @test domain(b) == Set([2, 3])
-    @test image(b) == Set(["Bye", "Hello"])
+    @test Set(domain(b)) == Set([2, 3])
+    @test Set(image(b)) == Set(["Bye", "Hello"])
 
     @test length(b) == 2
     @test !isempty(b)
-
 
     bb = inv(b)
     @test bb["Bye"] == 2
@@ -33,17 +31,14 @@ using Bijections
     @test bb["Ciao"] == 0
     @test inv(bb) == b
 
-
     # iteration test
     dom_list = [x for (x, y) in b]
     @test Set(dom_list) == domain(b)
-
 
     # conversion to a Dict
     d = Dict(b)
     @test d[0] == b[0]
     @test Bijection(d) == b
-
 
     # check pair constructor
     @test Bijection(collect(b)) == b
@@ -61,5 +56,4 @@ end
 
     c = a * b
     @test c["hi"] == 10
-
 end

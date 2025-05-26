@@ -1,5 +1,7 @@
 # Bijections
 
+> **WARNING** This documentation is for version 0.1.x of `Bijections`. A new version of `Bijections` will be released as the `0.2.x` series and will feature breaking changes (as well as added features).
+
 A `Bijection` data type for Julia.
 
 

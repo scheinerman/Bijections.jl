@@ -1,37 +1,53 @@
 module Bijections
 
-import Base: delete!, length, isempty, collect, setindex!, getindex, get
-import Base: show, display, ==, iterate
+import Base:
+    *,
+    ==,
+    collect,
+    delete!,
+    display,
+    getindex,
+    inv,
+    isempty,
+    iterate,
+    length,
+    setindex!,
+    show
 
-# import Base.isempty, Base.collect, Base.setindex!, Base.getindex
-# import Base.show, Base.display, Base.==
-
-export Bijection, setindex!, getindex, inverse, length
-export isempty, collect, domain, image, show, display
+export Bijection,
+    active_inv,
+    collect,
+    display,
+    domain,
+    getindex,
+    image,
+    inverse,
+    isempty,
+    length,
+    setindex!,
+    show
 
 struct Bijection{S,T} <: AbstractDict{S,T}
-    domain::Set{S}     # domain of the bijection
-    range::Set{T}      # range of the bijection
     f::Dict{S,T}       # map from domain to range
     finv::Dict{T,S}    # inverse map from range to domain
 
     # standard constructor
     function Bijection{S,T}() where {S,T}
-        D = Set{S}()
-        R = Set{T}()
         F = Dict{S,T}()
         G = Dict{T,S}()
-        new(D, R, F, G)
+        new(F, G)
     end
 
     # private, unsafe constructor
-    function Bijection{S,T}(D::Set{S}, R::Set{T}, F::Dict{S,T}, G::Dict{T,S}) where {S,T}
-        new(D, R, F, G)
+    function Bijection{S,T}(F::Dict{S,T}, G::Dict{T,S}) where {S,T}
+        new(F, G)
     end
 end
 
 # Default constructor is a bijection from Any to Any
 """
+    Bijection()
+
 Construct a new `Bijection`. 
 
 * `Bijection{S,T}()` creates an empty `Bijection` from objects of type `S` to objects of type `T`. If `S` and `T` are omitted, then we have `Bijection{Any,Any}`.
@@ -42,7 +58,6 @@ Construct a new `Bijection`.
 function Bijection()
     Bijection{Any,Any}()
 end
-
 
 # Create a new bijection given two values to start off. Domain and
 # range types are inferred from x and y.
@@ -96,17 +111,16 @@ end
 # equality checking
 ==(a::Bijection, b::Bijection) = a.f == b.f
 
-
 # Add a relation to a bijection: b[x] = y
 """
+    setindex!(b::Bijection, y, x)
+
 For a `Bijection` `b` use the syntax `b[x]=y` to add `(x,y)` to `b`.
 """
 function setindex!(b::Bijection, y, x)
-    if in(x, b.domain) || in(y, b.range)
+    if in(x, domain(b)) || in(y, image(b))
         error("One of x or y already in this Bijection")
     else
-        push!(b.domain, x)
-        push!(b.range, y)
         b.f[x] = y
         b.finv[y] = x
     end
@@ -115,6 +129,8 @@ end
 
 # retreive b[x] where x is in domain
 """
+    getindex(b::Bijection, x)
+
 For a `Bijection` `b` and a value `x` in its domain, use `b[x]` to
 fetch the image value `y` associated with `x`.
 """
@@ -124,7 +140,9 @@ end
 
 # apply the inverse mapping (from range to domain) to an element y
 """
-`inverse(b::Bijection,y)` returns the value `x` such that `b[x] == y`
+    inverse(b::Bijection, y)
+
+Returns the value `x` such that `b[x] == y`
 (if it exists).
 """
 function inverse(b::Bijection, y)
@@ -134,15 +152,14 @@ end
 # the notation b(y) is a shortcut for inverse(b,y)
 (b::Bijection)(y) = inverse(b, y)
 
-
 # Remove a pair (x,y) from a bijection
 """
-`delete!(b::Bijection,x)` deletes the ordered pair `(x,b[x])` from `b`.1==
+    delete!(b::Bijection, x)
+
+Deletes the ordered pair `(x,b[x])` from `b`.
 """
 function delete!(b::Bijection, x)
     y = b[x]
-    delete!(b.domain, x)
-    delete!(b.range, y)
     delete!(b.f, x)
     delete!(b.finv, y)
     return b
@@ -150,18 +167,22 @@ end
 
 # Give the number of pairs in this bijection
 """
-`length(b::Bijection)` gives the number of ordered pairs in `b`.
+    length(b::Bijection)
+
+Gives the number of ordered pairs in `b`.
 """
 function length(b::Bijection)
-    length(b.domain)
+    length(b.f)
 end
 
 # Check if this bijection is empty
 """
-`isempty(b::Bijection)` returns true iff `b` has no pairs.
+    isempty(b::Bijection)
+
+Returns true iff `b` has no pairs.
 """
 function isempty(b::Bijection)
-    length(b) == 0
+    length(b.f) == 0
 end
 
 # convert a bijection into an array of ordered pairs. This is
@@ -170,16 +191,19 @@ collect(b::Bijection) = collect(b.f)
 
 # return the domain as an array of values
 """
-`domain(b::Bijection)` returns the set of input values for `b`.
+    domain(b::Bijection)
+
+Returns an iterator for the keys for `b`.
 """
-domain(b::Bijection) = copy(b.domain)
+domain(b::Bijection) = keys(b)
 
 # return the image as an array of values
 """
-`image(b::Bijection)` returns the set of output values of `b`.
-"""
-image(b::Bijection) = copy(b.range)
+    image(b::Bijection)
 
+Returns an iterator for the values of `b`.
+"""
+image(b::Bijection) = values(b)
 
 iterate(b::Bijection{S,T}, s::Int) where {S,T} = iterate(b.f, s)
 iterate(b::Bijection{S,T}) where {S,T} = iterate(b.f)
@@ -187,10 +211,10 @@ iterate(b::Bijection{S,T}) where {S,T} = iterate(b.f)
 # convert a Bijection into a Dict; probably not useful 
 Base.Dict(b::Bijection) = copy(b.f)
 
-
-# Check if this bijection is empty
 """
-`get(b::Bijection, key, default)` returns b[key] if it exists and returns default otherwise.
+    get(b::Bijection, key, default)
+
+Returns `b[key]` if it exists and returns `default` otherwise.
 """
 function get(b::Bijection, key, default)
     get(b.f, key, default)

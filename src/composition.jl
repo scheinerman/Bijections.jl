@@ -1,5 +1,3 @@
-import Base.(*)
-
 """
     (*)(a::Bijection{A,B}, b::Bijection{B,C})::Bijection{A,C} where {A,B,C}
 
@@ -9,7 +7,7 @@ as the `image` of `b`.
 """
 function (*)(a::Bijection{B,A}, b::Bijection{C,B})::Bijection{C,A} where {A,B,C}
     # check that the domain of a equals the image of B
-    if domain(a) != image(b)
+    if Set(domain(a)) != Set(image(b))
         error("Domain/Image mismatch")
     end
 
