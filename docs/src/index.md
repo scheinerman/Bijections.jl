@@ -1,5 +1,7 @@
 # Bijections
 
+> THIS IS THE OLD README FOR VERSION 0.1!!
+
 A `Bijection` data type for Julia.
 
 

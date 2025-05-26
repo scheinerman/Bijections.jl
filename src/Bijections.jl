@@ -1,34 +1,23 @@
 module Bijections
 
 import Base:
-    *,
-    ==,
-    collect,
-    delete!,
-    getindex,
-    get,
-    inv,
-    isempty,
-    iterate,
-    length,
-    setindex!
+    *, ==, collect, delete!, getindex, get, inv, isempty, iterate, length, setindex!
 
-export Bijection,
-    active_inv,
-    domain,
-    image,
-    inverse,
-    hasvalue
+export Bijection, active_inv, domain, image, inverse, hasvalue
 
 struct Bijection{K,V,F,Finv} <: AbstractDict{K,V}
     f::F          # map from domain to range
     finv::Finv    # inverse map from range to domain
 
-    function Bijection(f::F, finv::Finv) where {K,V,F<:AbstractDict{K,V},Finv<:AbstractDict{V,K}}
+    function Bijection(
+        f::F, finv::Finv
+    ) where {K,V,F<:AbstractDict{K,V},Finv<:AbstractDict{V,K}}
         new{K,V,F,Finv}(f, finv)
     end
 
-    function Bijection{K,V,F,Finv}(f::F, finv::Finv) where {K,V,F<:AbstractDict{K,V},Finv<:AbstractDict{V,K}}
+    function Bijection{K,V,F,Finv}(
+        f::F, finv::Finv
+    ) where {K,V,F<:AbstractDict{K,V},Finv<:AbstractDict{V,K}}
         new{K,V,F,Finv}(f, finv)
     end
 end
@@ -64,7 +53,9 @@ end
 # Convert an `AbstractDict` to a `Bijection`
 Bijection(f::F) where {F<:AbstractDict} = Bijection(f, dict_inverse(f))
 
-function Bijection{K,V,F,Finv}(f::F) where {K,V,F<:AbstractDict{K,V},Finv<:AbstractDict{V,K}}
+function Bijection{K,V,F,Finv}(
+    f::F
+) where {K,V,F<:AbstractDict{K,V},Finv<:AbstractDict{V,K}}
     Bijection{K,V,F,Finv}(f, Finv(Iterators.map(reverse, f)))
 end
 
@@ -116,7 +107,8 @@ hasvalue(b::Bijection, y) = haskey(b.finv, y)
 For a `Bijection` `b` use the syntax `b[x]=y` to add `(x,y)` to `b`.
 """
 function setindex!(b::Bijection, y, x)
-    haskey(b.finv, y) && throw(ArgumentError("inserting $x => $y would break bijectiveness"))
+    haskey(b.finv, y) &&
+        throw(ArgumentError("inserting $x => $y would break bijectiveness"))
 
     # if update of existing key, then remove old value from finv
     # TODO test this!!
@@ -175,7 +167,9 @@ inverse_dict_type(::Type{Base.ImmutableDict{K,V}}) where {K,V} = Base.ImmutableD
 
 # PersistentDict was introduced in Julia 1.11
 if isdefined(Base, :PersistentDict)
-    inverse_dict_type(::Type{Base.PersistentDict{K,V}}) where {K,V} = Base.PersistentDict{V,K}
+    function inverse_dict_type(::Type{Base.PersistentDict{K,V}}) where {K,V}
+        Base.PersistentDict{V,K}
+    end
 end
 
 function dict_inverse(d::D) where {D<:AbstractDict}
