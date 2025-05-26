@@ -172,7 +172,11 @@ end
 inverse_dict_type(::Type{Dict{K,V}}) where {K,V} = Dict{V,K}
 inverse_dict_type(::Type{IdDict{K,V}}) where {K,V} = IdDict{V,K}
 inverse_dict_type(::Type{Base.ImmutableDict{K,V}}) where {K,V} = Base.ImmutableDict{V,K}
-inverse_dict_type(::Type{Base.PersistentDict{K,V}}) where {K,V} = Base.PersistentDict{V,K}
+
+# PersistentDict was introduced in Julia 1.11
+if isdefined(Base, :PersistentDict)
+    inverse_dict_type(::Type{Base.PersistentDict{K,V}}) where {K,V} = Base.PersistentDict{V,K}
+end
 
 function dict_inverse(d::D) where {D<:AbstractDict}
     allunique(values(d)) || throw(ArgumentError("dict is not bijective"))
