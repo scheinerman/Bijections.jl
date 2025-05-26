@@ -1,6 +1,26 @@
 # Bijections
 
-> **WARNING** This documentation is for version 0.1.x of `Bijections`. A new version of `Bijections` will be released as the `0.2.x` series and will feature breaking changes (as well as added features).
+## What's New in 0.2
+
+For the most part, 0.2.x versions of `Bijections` should be fully compatiable with the 0.1.x releases. 
+
+### Breaking Changes
+
+* The underlying datastructure for a `Bijection` has been simplified. Users should not notice any difference.
+* The functions `domain` and `image` returned a `Set` in 0.1. They now return iterators. 
+  * `domain(b)` simply calls `keys(b)`.
+  * `image(b)` simply calls `values(b)`. 
+
+### New Feature
+
+A `Bijection` contains two dictionaries which previously (and now by default) are type `Dict`. In this release, users can specify another `AbstractDict`. More information will be forthcoming, but one might create a `Bijection` like this:
+```
+b = Bijection{Int, Vector{Int}, IdDict{Int,VectorInt}, IdDict{Vector{Int},Int}}()
+```
+In this case, the mappings from keys to values (and vice versa) are held in an `IdDict` 
+instead of a `Dict`. 
+
+# `README` for Version 0.1
 
 A `Bijection` data type for Julia.
 
