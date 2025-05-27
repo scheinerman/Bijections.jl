@@ -1,4 +1,4 @@
-# `Bijections`
+# Bijections
 
 
 ## New in version 0.2
@@ -7,6 +7,7 @@
 * The `Bijection` data structure has been simplified.
 * Option to use `IdDict` instead of `Dict`; see the Mutable page in this documentation. 
 
+It is likely that code using version 0.1 will not need to be modified to work with 0.2.
 
 ## About
 
