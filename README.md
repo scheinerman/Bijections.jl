@@ -1,8 +1,16 @@
-# Getting Started with `Bijections`
+# `Bijections`
+
+
+## New in version 0.2
+
+* The `domain` and `image` functions now return iterators [breaking].
+* The `Bijection` data structure has been simplified.
+* Option to use `IdDict` instead of `Dict`; see the Mutable page in this documentation. 
+
+
+## About
 
 Julia dictionaries are not one-to-one. That is, two different keys might have the same value. 
 A `Bijection` data structure behaves just like a dictionary, except it prevents the assignment of the same value to two different keys.
 
-## Constructors
-
-MORE TO COME
+See [the documentation](https://docs.juliahub.com/General/Bijections/stable/).
