@@ -1,4 +1,4 @@
-# Operations 
+# Operations
 
 
 
@@ -6,7 +6,7 @@
 
 There are two functions that take a `Bijection` and return a new
 `Bijection` that is the functional inverse of the original:
-`inv` and `active_inv`.
+[`inv`](@ref) and [`active_inv`](@ref).
 
 ### Independent inverse: `inv`
 Given a `Bijection` `b`, calling `inv(b)` creates a new `Bijection`
@@ -61,7 +61,7 @@ julia> bb = active_inv(b)
 Bijection Dict{String, Int64} with 2 entries:
   "alpha" => 1
   "beta"  => 2
-  
+
 julia> b[3] = "gamma"
 "gamma"
 
@@ -86,8 +86,8 @@ julia> for (x,y) in b; println("$x --> $y"); end
 
 ## Composition
 
-Given two `Bijection`s `a` and `b`, their composition `c = a*b` is a new 
-`Bijection` with the property that `c[x] = a[b[x]]` for all `x` in the 
+Given two `Bijection`s `a` and `b`, their composition `c = a*b` is a new
+`Bijection` with the property that `c[x] = a[b[x]]` for all `x` in the
 domain of `b`.
 
 ```

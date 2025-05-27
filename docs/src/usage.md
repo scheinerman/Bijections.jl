@@ -81,7 +81,7 @@ ERROR: KeyError: hello not found
 ## Inspection
 
 Thinking of a `Bijection` as a mapping between finite sets, we
-provide the functions `domain` and `image`. These return,
+provide the functions [`domain`](@ref) and [`image`](@ref). These return,
 respectively, the set of keys and the set of values of the
 `Bijection`.
 ```

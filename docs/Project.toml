@@ -1,3 +1,7 @@
 [deps]
+Bijections = "e2ed5e7c-b2de-5872-ae92-c73ca462fb04"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-OhMyREPL = "5fb14364-9ced-5910-84b2-373655c76a03"
+DocumenterInterLinks = "d12716ef-a0f6-4df4-a9f1-a5a34e75c656"
+
+[sources]
+Bijections = {path = ".."}

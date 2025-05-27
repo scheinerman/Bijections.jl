@@ -1,9 +1,9 @@
-# Bijections for Mutable Structures
+# [Bijections for Mutable Structures](@id mutable)
 
 ## Mutating keys/values can lead to corruption
 
-The safest use of a `Bijection` is when the keys and values  are immutable. 
-If a mutable key or value in a `Bijection` is altered, the bijective property 
+The safest use of a `Bijection` is when the keys and values  are immutable.
+If a mutable key or value in a `Bijection` is altered, the bijective property
 can be compromised. Here is an example:
 ```
 julia> b = Bijection{Int, Vector{Int}}();
@@ -28,7 +28,7 @@ Bijection{Int64, Vector{Int64}, Dict{Int64, Vector{Int64}}, Dict{Vector{Int64}, 
   2 => [1, 2, 3]
   1 => [1, 2, 3]
 ```
-Notice that `b` contains a repeated value and therefore is not bijective. 
+Notice that `b` contains a repeated value and therefore is not bijective.
 
 Some strategies to avoid this problem include:
 * Only use immutable keys and values (such as numbers and strings).
@@ -58,7 +58,7 @@ We may wish to create a `Bijection` in which the keys or values are permitted to
 ```
 Bijection{K, V, IdDict{K,V}, IdDict{V,K}}()
 ```
-where `K` is the type of the keys and `V` is the type of the values. 
+where `K` is the type of the keys and `V` is the type of the values.
 
 For example:
 ```
