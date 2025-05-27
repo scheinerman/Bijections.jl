@@ -6,8 +6,7 @@
 Once a `Bijection`, `b`, is created, we add a new key-value pair in
 the same manner as with a `Dict`:
 ```
-julia> b = Bijection{Int, String}()
-Bijection Dict{Int64, String}()
+julia> b = Bijection{Int, String}();
 
 julia> b[1] = "hello"
 "hello"
@@ -32,7 +31,7 @@ If we wish to change the value associated with a given key, the pair
 must first be deleted using `delete!`:
 ```
 julia> delete!(b,1)
-Bijection Dict{Int64, String} with 1 entry:
+Bijection{Int64, String, Dict{Int64, String}, Dict{String, Int64}} with 1 entry:
   2 => "bye"
 
 julia> b[1] = "ciao"
@@ -82,14 +81,18 @@ ERROR: KeyError: hello not found
 
 Thinking of a `Bijection` as a mapping between finite sets, we
 provide the functions [`domain`](@ref) and [`image`](@ref). These return,
-respectively, the set of keys and the set of values of the
+respectively, iterators for the keys and the values of the
 `Bijection`.
 ```
 julia> domain(b)
-Set(Any[2,1])
+KeySet for a Dict{Int64, String} with 2 entries. Keys:
+  2
+  1
 
 julia> image(b)
-Set(Any["bye","ciao"])
+ValueIterator for a Dict{Int64, String} with 2 entries. Values:
+  "bye"
+  "ciao"
 ```
 
 The `collect` function returns the `Bijection` as an array of

@@ -15,8 +15,7 @@ prevents assigning the same value to two different keys.
 After `using Bijections` we create a new `Bijection` in one of the
 following ways:
 
-* `b = Bijection()`: This gives a new `Bijection` in which the keys
-and values are of `Any` type.
+* `b = Bijection()`: This gives a new `Bijection` in which the keys and values are of `Any` type.
 
 * `b = Bijection{S,T}()`: This gives a new `Bijection` in which the
   keys are of type `S` and the values are of type `T`.

@@ -1,7 +1,7 @@
 name = "Bijections"
 uuid = "e2ed5e7c-b2de-5872-ae92-c73ca462fb04"
 authors = ["Ed Scheinerman <ers@jhu.edu>"]
-version = "0.2.1"
+version = "0.2.2"
 
 [compat]
 julia = "1"
