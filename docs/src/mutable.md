@@ -35,7 +35,7 @@ Some strategies to avoid this problem include:
 * Use copies of the keys/values in the `Bijection`.
 * Don't modify keys/values saved in the `Bijection`.
 
-In case none of these is an option, we provide the following additional alternative.
+In case none of these is a viable option, we provide the following additional alternative.
 
 
 
@@ -62,18 +62,24 @@ where `K` is the type of the keys and `V` is the type of the values.
 
 For example:
 ```
-julia> b = Bijection{Vector{Int}, String, IdDict{Vector{Int},String}, IdDict{String,Vector{Int}}}()
-Bijection{Vector{Int64}, String, IdDict{Vector{Int64}, String}, IdDict{String, Vector{Int64}}}()
+julia> b = Bijection{Vector{Int}, String, IdDict{Vector{Int},String}, IdDict{String,Vector{Int}}}();
 
-julia> b[ [1,2,3] ] = "alpha"
-"alpha"
+julia> b[ [1,2,3] ] = "alpha";
 
-julia> b[ [1,2,3] ] = "beta"
-"beta"
+julia> b[ [1,2,3] ] = "beta";
 
 julia> b("alpha") == b("beta")
 true
 
 julia> b("alpha") === b("beta")
 false
+
+julia> domain(b)
+KeySet for a IdDict{Vector{Int64}, String} with 2 entries. Keys:
+  [1, 2, 3]
+  [1, 2, 3]
+
+julia> Set(domain(b))
+Set{Vector{Int64}} with 1 element:
+  [1, 2, 3]
 ```
