@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## Unreleased
+
+* Moved project to the [JuliaCollections org](https://github.com/JuliaCollections)
+
+## [0.2.2][] - 2025-05-27
+
+### Added
+
+* Added API documentation
+* Added a CHANGELOG
+
+
 ## [0.2.1][] - 2025-05-26
 
 ### Fixed
@@ -26,7 +38,8 @@ It is likely that code using version 0.1 will not need to be modified to work wi
 
 ## 0.1.x
 
-See https://github.com/scheinerman/Bijections.jl/releases for changelog of `v0.1.x` releases.
+See https://github.com/JuliaCollections/Bijections.jl/releases for changelog of `v0.1.x` releases.
 
-[0.2.1]: https://github.com/scheinerman/Bijections.jl/releases/tag/v0.2.1
-[0.2.0]: https://github.com/scheinerman/Bijections.jl/releases/tag/v0.2.0
+[0.2.2]: https://github.com/JuliaCollections/Bijections.jl/releases/tag/v0.2.2
+[0.2.1]: https://github.com/JuliaCollections/Bijections.jl/releases/tag/v0.2.1
+[0.2.0]: https://github.com/JuliaCollections/Bijections.jl/releases/tag/v0.2.0
