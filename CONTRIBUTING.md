@@ -22,7 +22,7 @@ To make a good PR, follow these steps:
 ### Maintainers
 
 * The original author of the package is Ed Scheinerman (@scheinerman), retaining authority over the development of the package as a co-maintainer.
-* The current maintainer of the package is Sánchez Ramírez (@mofeing).
+* The current maintainer of the package is Sergio Sánchez Ramírez (@mofeing).
 * Michael Goerz (@goerz) is a contributor with commit access for administrative purposes
 
 ### PR review and merging
