@@ -7,7 +7,7 @@ PROJECT_TOML = Pkg.TOML.parsefile(joinpath(@__DIR__, "..", "Project.toml"))
 VERSION = PROJECT_TOML["version"]
 NAME = PROJECT_TOML["name"]
 AUTHORS = join(PROJECT_TOML["authors"], ", ") * " and contributors"
-GITHUB = "https://github.com/scheinerman/Bijections.jl"
+GITHUB = "https://github.com/JuliaCollections/Bijections.jl"
 
 links = InterLinks("Julia" => "https://docs.julialang.org/en/v1/")
 
@@ -27,7 +27,7 @@ makedocs(;
     pages=PAGES,
     format=Documenter.HTML(;
         prettyurls=true,
-        canonical="https://scheinerman.github.io/Bijections.jl",
+        canonical="https://juliacollections.github.io/Bijections.jl",
         edit_link="master",
         footer="[$NAME.jl]($GITHUB) v$VERSION docs powered by [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl).",
         assets=String[],
@@ -38,5 +38,5 @@ makedocs(;
 println("Finished makedocs")
 
 deploydocs(;
-    repo="github.com/scheinerman/Bijections.jl", devbranch="master", push_preview=true
+    repo="github.com/JuliaCollections/Bijections.jl", devbranch="master", push_preview=true
 )
