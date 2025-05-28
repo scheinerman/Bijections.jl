@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+      - dev
+      - 'release-*'
     tags: ['*']
   pull_request:
     branches:
@@ -41,3 +43,30 @@ jobs:
       - uses: julia-actions/cache@v2
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
+      - uses: julia-actions/julia-processcoverage@v1
+      - name: Install LocalCoverage
+        shell: julia {0}
+        run: |
+          using Pkg
+          Pkg.add(PackageSpec(name="LocalCoverage"))
+          Pkg.add(PackageSpec(name="CoverageTools"))
+      - name: Show coverage info
+        shell: julia {0}
+        run: |
+          import CoverageTools
+          import LocalCoverage
+          coverage = CoverageTools.LCOV.readfile("lcov.info")
+          report = LocalCoverage.eval_coverage_metrics(coverage, ".")
+          show(report)
+      - uses: codecov/codecov-action@v5
+        with:
+          files: lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Save Julia depot cache on cancel or failure
+        id: julia-cache-save
+        if: cancelled() || failure()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ${{ steps.julia-cache.outputs.cache-paths }}
+          key: ${{ steps.julia-cache.outputs.cache-key }}
