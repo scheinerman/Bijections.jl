@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 * Moved project to the [JuliaCollections org](https://github.com/JuliaCollections)
-* Removed `domain` and `image` functions
+* Removed `domain` and `image` functions. If in need of similar functionality, use `Base.keys` and `Base.values`.
 
 ## [0.2.2][] - 2025-05-27
 
