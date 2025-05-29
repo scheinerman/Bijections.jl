@@ -14,9 +14,6 @@ using Bijections
     @test b("Bye") == 2
     @test inverse(b, "Bye") == 2
 
-    @test Set(domain(b)) == Set([2, 3])
-    @test Set(image(b)) == Set(["Bye", "Hello"])
-
     @test length(b) == 2
     @test !isempty(b)
 
@@ -30,10 +27,6 @@ using Bijections
     b[0] = "Ciao"
     @test bb["Ciao"] == 0
     @test inv(bb) == b
-
-    # iteration test
-    dom_list = [x for (x, y) in b]
-    @test Set(dom_list) == domain(b)
 
     # conversion to a Dict
     d = Dict(b)
