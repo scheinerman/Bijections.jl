@@ -3,7 +3,7 @@ module Bijections
 import Base:
     *, ==, collect, delete!, getindex, get, inv, isempty, iterate, length, setindex!
 
-export Bijection, active_inv, domain, image, inverse, hasvalue
+export Bijection, active_inv, inverse, hasvalue
 
 struct Bijection{K,V,F,Finv} <: AbstractDict{K,V}
     f::F          # map from domain to range
