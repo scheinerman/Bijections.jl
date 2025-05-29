@@ -1,118 +1,92 @@
 # Using `Bijections`
 
+```@setup example
+using Bijections
+```
 
 ## Adding and deleting key/value pairs
 
 Once a `Bijection`, `b`, is created, we add a new key-value pair in
 the same manner as with a `Dict`:
-```
-julia> b = Bijection{Int, String}();
 
-julia> b[1] = "hello"
-"hello"
-
-julia> b[2] = "bye"
-"bye"
+```@repl example
+b = Bijection{Int, String}();
+b[1] = "hello"
+b[2] = "bye"
 ```
 Notice, however, that if we add a new key with a value that already
 exists in the `Bijection` an error ensues:
-```
-julia> b[3] = "hello"
-ERROR: One of x or y already in this Bijection
-```
-Likewise, if a key already has a value it cannot be changed by giving
-it a new value:
-```
-julia> b[1] = "ciao"
-ERROR: One of x or y already in this Bijection
+
+```@repl example
+b[3] = "hello"
 ```
 
-If we wish to change the value associated with a given key, the pair
-must first be deleted using `delete!`:
-```
-julia> delete!(b,1)
-Bijection{Int64, String, Dict{Int64, String}, Dict{String, Int64}} with 1 entry:
-  2 => "bye"
+On the contrary, if a key already has a value it can be changed by giving
+it a new value as long as it doesn't break bijectiveness (i.e. the new
+value is not already in the `Bijection`):
 
-julia> b[1] = "ciao"
-"ciao"
+```@repl example
+b[1] = "ciao"
 ```
 
 ## Accessing values from keys, and keys from values
 
 To access a value associated with a given key, we use the same syntax
 as for a `Dict`:
-```
-julia> b[1]
-"ciao"
 
-julia> b[2]
-"bye"
+```@repl example
+b[1]
+b[2]
 ```
 
 If the key is not in the `Bijection` an error is raised:
-```
-julia> b[3]
-ERROR: KeyError: 3 not found
+
+```@repl example
+b[3]
 ```
 
 Since the values in a `Bijection` must be distinct, we can give a
 value as an input and retrieve its associate key. The function
 `inverse(b,y)` finds the value `x` such that `b[x]==y`. However, we
 provide the handy short cut `b(y)`:
-```
-julia> b("bye")
-2
 
-julia> b("ciao")
-1
+```@repl example
+b("bye")
+b("ciao")
 ```
 
 Naturally, if the requested value is not in the `Bijection` an error
 is raised:
+
+```@repl example
+b("hello")
 ```
-julia> b("hello")
-ERROR: KeyError: hello not found
-```
 
+In order to access the domain and image sets of the `Bijection`, one can
+use the `Base.keys` and `Base.values` functions.
 
-
-## Inspection
-
-Thinking of a `Bijection` as a mapping between finite sets, we
-provide the functions [`domain`](@ref) and [`image`](@ref). These return,
-respectively, iterators for the keys and the values of the
-`Bijection`.
-```
-julia> domain(b)
-KeySet for a Dict{Int64, String} with 2 entries. Keys:
-  2
-  1
-
-julia> image(b)
-ValueIterator for a Dict{Int64, String} with 2 entries. Values:
-  "bye"
-  "ciao"
+```@repl example
+keys(b)
+values(b)
 ```
 
 The `collect` function returns the `Bijection` as an array of
 key-value pairs:
-```
-julia> collect(b)
-2-element Array{Tuple{Any,Any},1}:
- (2,"bye")
- (1,"ciao")
+
+```@repl example
+collect(b)
 ```
 
 The `length` function returns the number of key-value pairs:
-```
-julia> length(b)
-2
+
+```@repl example
+length(b)
 ```
 
 The `isempty` function returns `true` exactly when the `Bijection`
 contains no pairs:
+
+```@repl example
+isempty(b)
 ```
-julia> isempty(b)
-false
-```
+
