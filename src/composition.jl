@@ -4,7 +4,7 @@
 The result of `a * b` is a new `Bijection` `c` such that `c[x]` is `a[b[x]]` for `x`
 in the domain of `b`.
 """
-function (*)(a::Bijection{B,A}, b::Bijection{C,B}) where {A,B,C}
+function Base.:(*)(a::Bijection{B,A}, b::Bijection{C,B}) where {A,B,C}
     c = Bijection{C,A}()
     for x in keys(b)
         c[x] = a[b[x]]
