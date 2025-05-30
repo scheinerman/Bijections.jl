@@ -265,7 +265,7 @@ end
 @testset "Serialization" begin
     using Serialization
 
-    @testset "b = Bijection{Int,Symbol}(1 => :one, 2 => :two)" begin
+    @testset "bijection with immutable keys / values" begin
         b = Bijection{Int,Symbol}(1 => :one, 2 => :two)
         write_io = IOBuffer()
         serialize(write_io, b)
@@ -279,7 +279,7 @@ end
         @test b_reconstructed.finv == b.finv
     end
 
-    @testset "b = Bijection{Int,Vector{Int}}(1 => [1], 2 => [2])" begin
+    @testset "bijection with mutable values" begin
         b = Bijection{Int,Vector{Int}}(1 => [1], 2 => [2])
         write_io = IOBuffer()
         serialize(write_io, b)
@@ -293,7 +293,7 @@ end
         @test b_reconstructed.finv == b.finv
     end
 
-    @testset "b = Bijection{Int,Vector{Int},Dict{Int,Vector{Int}},IdDict{Vector{Int},Int}}(1 => [1], 2 => [1])" begin
+    @testset "bijection with mutable values + IdDict" begin
         b = Bijection{Int,Vector{Int},Dict{Int,Vector{Int}},IdDict{Vector{Int},Int}}(
             1 => [1],
             2 => [1], # value repeated on purpose
