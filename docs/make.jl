@@ -13,7 +13,7 @@ links = InterLinks("Julia" => "https://docs.julialang.org/en/v1/")
 
 PAGES = [
     "Getting Started" => "index.md",
-    "Using Bijections" => "usage.md",
+    "Usage" => "usage.md",
     "Operations" => "operations.md",
     "Mutable Objects" => "mutable.md",
     "API" => "api.md",
