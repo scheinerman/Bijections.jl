@@ -1,4 +1,4 @@
-# Using `Bijections`
+# Usage
 
 ```@setup example
 using Bijections
