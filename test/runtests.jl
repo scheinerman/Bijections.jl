@@ -265,7 +265,8 @@ end
 @testset "Serialization" begin
     using Serialization
 
-    @testset let b = Bijection{Int,Symbol}(1 => :one, 2 => :two)
+    @testset "b = Bijection{Int,Symbol}(1 => :one, 2 => :two)" begin
+        b = Bijection{Int,Symbol}(1 => :one, 2 => :two)
         write_io = IOBuffer()
         serialize(write_io, b)
         data = take!(write_io)
@@ -278,7 +279,8 @@ end
         @test b_reconstructed.finv == b.finv
     end
 
-    @testset let b = Bijection{Int,Vector{Int}}(1 => [1], 2 => [2])
+    @testset "b = Bijection{Int,Vector{Int}}(1 => [1], 2 => [2])" begin
+        b = Bijection{Int,Vector{Int}}(1 => [1], 2 => [2])
         write_io = IOBuffer()
         serialize(write_io, b)
         data = take!(write_io)
@@ -291,9 +293,8 @@ end
         @test b_reconstructed.finv == b.finv
     end
 
-    @testset let b = Bijection{
-            Int,Vector{Int},Dict{Int,Vector{Int}},IdDict{Vector{Int},Int}
-        }(
+    @testset "b = Bijection{Int,Vector{Int},Dict{Int,Vector{Int}},IdDict{Vector{Int},Int}}(1 => [1], 2 => [1])" begin
+        b = Bijection{Int,Vector{Int},Dict{Int,Vector{Int}},IdDict{Vector{Int},Int}}(
             1 => [1],
             2 => [1], # value repeated on purpose
         )
