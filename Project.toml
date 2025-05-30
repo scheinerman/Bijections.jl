@@ -6,11 +6,15 @@ authors = [
 ]
 version = "0.2.2"
 
-[compat]
-julia = "1"
+[weakdeps]
+Serialization = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+
+[extensions]
+BijectionsSerializationExt = "Serialization"
 
 [extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Serialization = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
-[targets]
-test = ["Test"]
+[compat]
+Serialization = "1.6.0"
+julia = "1.6"

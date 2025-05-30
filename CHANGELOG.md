@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Moved project to the [JuliaCollections org](https://github.com/JuliaCollections)
+* Optimized `Serialization.serialize` size by saving only the forward dictionary (#34)
 
 ### Breaking
 
