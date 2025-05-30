@@ -1,5 +1,6 @@
 using Test
 using Bijections
+using Serialization
 
 @testset "Basics" begin
     b = Bijection(3, "Hello")
@@ -259,4 +260,54 @@ end
     delete!(b, 1)
     @test !haskey(b, 1)
     @test !haskey(inv(b), "one")
+end
+
+@testset "Serialization" begin
+    using Serialization
+
+    @testset let b = Bijection{Int,Symbol}(1 => :one, 2 => :two)
+        write_io = IOBuffer()
+        serialize(write_io, b)
+        data = take!(write_io)
+
+        read_io = IOBuffer(data)
+        b_reconstructed = deserialize(read_io)
+
+        @test typeof(b_reconstructed) == typeof(b)
+        @test b_reconstructed.f == b.f
+        @test b_reconstructed.finv == b.finv
+    end
+
+    @testset let b = Bijection{Int,Vector{Int}}(1 => [1], 2 => [2])
+        write_io = IOBuffer()
+        serialize(write_io, b)
+        data = take!(write_io)
+
+        read_io = IOBuffer(data)
+        b_reconstructed = deserialize(read_io)
+
+        @test typeof(b_reconstructed) == typeof(b)
+        @test b_reconstructed.f == b.f
+        @test b_reconstructed.finv == b.finv
+    end
+
+    @testset let b = Bijection{
+            Int,Vector{Int},Dict{Int,Vector{Int}},IdDict{Vector{Int},Int}
+        }(
+            1 => [1],
+            2 => [1], # value repeated on purpose
+        )
+        write_io = IOBuffer()
+        serialize(write_io, b)
+        data = take!(write_io)
+
+        read_io = IOBuffer(data)
+        b_reconstructed = deserialize(read_io)
+
+        @test typeof(b_reconstructed) == typeof(b)
+        @test b_reconstructed.f == b.f
+
+        # it uses a `IdDict` and the objectids are not the same, so order is not guaranteed
+        @test issetequal(b_reconstructed.finv, b.finv)
+    end
 end
