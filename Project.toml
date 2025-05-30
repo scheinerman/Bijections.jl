@@ -3,8 +3,15 @@ uuid = "e2ed5e7c-b2de-5872-ae92-c73ca462fb04"
 authors = ["Ed Scheinerman <ers@jhu.edu>", "Sergio Sánchez Ramírez <sergio.sanchez.ramirez@bsc.es>"]
 version = "0.2.2"
 
+[weakdeps]
+Serialization = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+
+[extensions]
+BijectionsSerializationExt = "Serialization"
+
 [compat]
-julia = "1"
+Serialization = "1.6.0"
+julia = "1.6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
