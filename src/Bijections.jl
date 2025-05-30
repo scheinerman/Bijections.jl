@@ -1,6 +1,6 @@
 module Bijections
 
-export Bijection, active_inv, domain, image, inverse, hasvalue
+export Bijection, active_inv, inverse, hasvalue
 
 struct Bijection{K,V,F,Finv} <: AbstractDict{K,V}
     f::F          # map from domain to range
@@ -229,24 +229,7 @@ end
 # compatible with what collect does for Dict's.
 Base.collect(b::Bijection) = collect(b.f)
 
-# return the domain as an array of values
-"""
-    domain(b::Bijection)
-
-Returns an iterator for the keys for `b`.
-"""
-domain(b::Bijection) = keys(b)
-
 Base.keys(b::Bijection) = keys(b.f)
-
-# return the image as an array of values
-"""
-    image(b::Bijection)
-
-Returns an iterator for the values of `b`.
-"""
-image(b::Bijection) = values(b)
-
 Base.values(b::Bijection) = values(b.f)
 
 Base.iterate(b::Bijection, s) = iterate(b.f, s)

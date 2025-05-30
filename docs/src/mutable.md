@@ -74,12 +74,12 @@ true
 julia> b("alpha") === b("beta")
 false
 
-julia> domain(b)
+julia> keys(b)
 KeySet for a IdDict{Vector{Int64}, String} with 2 entries. Keys:
   [1, 2, 3]
   [1, 2, 3]
 
-julia> Set(domain(b))
+julia> Set(keys(b))
 Set{Vector{Int64}} with 1 element:
   [1, 2, 3]
 ```
