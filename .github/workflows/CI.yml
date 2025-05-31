@@ -84,7 +84,7 @@ jobs:
         # julia  -e 'using Pkg; Pkg.add(PackageSpec(name="JuliaFormatter", version="0.13.0"))'
         run: |
           julia  -e 'using Pkg; Pkg.add(PackageSpec(name="JuliaFormatter"))'
-          julia  -e 'using JuliaFormatter; format(["src", "docs", "test"], verbose=true)'
+          julia  -e 'using JuliaFormatter; format(["src", "docs", "test", "ext"], verbose=true)'
       - name: Format Check
         shell: julia {0}
         run: |
