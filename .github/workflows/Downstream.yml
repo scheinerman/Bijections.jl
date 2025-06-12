@@ -1,0 +1,45 @@
+name: 'Downstream Tests'
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - 'release-*'
+    tags: ['*']
+  pull_request:
+    paths:
+      - '.github/workflows/Downstream.yml'
+      - 'Project.toml'
+jobs:
+  test-dependent-packages:
+    name: Test ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    env:
+      PACKAGE: ${{ matrix.package }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package: 'DocumenterCitations'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+      - uses: julia-actions/cache@v2
+      - uses: julia-actions/julia-buildpkg@v1
+      - name: Run downstream test
+        shell: julia --color=yes {0}
+        run: |
+          import Pkg
+          Pkg.develop(Pkg.PackageSpec(; path = pwd()))
+          Pkg.develop(ENV["PACKAGE"])
+          Pkg.test(ENV["PACKAGE"])
+      - name: Save Julia depot cache on cancel or failure
+        id: julia-cache-save
+        if: cancelled() || failure()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ${{ steps.julia-cache.outputs.cache-paths }}
+          key: ${{ steps.julia-cache.outputs.cache-key }}
