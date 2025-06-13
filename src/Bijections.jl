@@ -2,7 +2,7 @@ module Bijections
 
 using Serialization: Serialization
 
-export Bijection, active_inv, inverse, hasvalue
+export Bijection, active_inv, inverse, hasvalue, compose
 
 struct Bijection{K,V,F,Finv} <: AbstractDict{K,V}
     f::F          # map from domain to range
@@ -268,5 +268,22 @@ function Serialization.deserialize(
     f = Serialization.deserialize(s)
     return B(f)
 end
+
+"""
+    c = (∘)(a::Bijection{A,B}, b::Bijection{B,C})::Bijection{A,C} where {A,B,C}
+    c = compose(a, b)
+
+The result of `a ∘ b` or `compose(a, b)` is a new `Bijection` `c` such that
+`c[x]` is `a[b[x]]` for `x` in the domain of `b`.
+"""
+function compose(a::Bijection{B,A}, b::Bijection{C,B}) where {A,B,C}
+    c = Bijection{C,A}()
+    for x in keys(b)
+        c[x] = a[b[x]]
+    end
+    return c
+end
+
+Base.:(∘)(a::Bijection, b::Bijection) = compose(a, b)
 
 end # end of module Bijections
