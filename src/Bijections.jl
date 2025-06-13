@@ -1,5 +1,7 @@
 module Bijections
 
+using Serialization: Serialization
+
 export Bijection, active_inv, inverse, hasvalue
 
 struct Bijection{K,V,F,Finv} <: AbstractDict{K,V}
@@ -246,6 +248,25 @@ function Base.sizehint!(b::Bijection, sz)
     sizehint!(b.f, sz)
     sizehint!(b.finv, sz)
     return b
+end
+
+function Serialization.serialize(
+    s::Serialization.AbstractSerializer, b::B
+) where {B<:Bijection}
+    Serialization.writetag(s.io, Serialization.OBJECT_TAG)
+
+    # serialize type
+    Serialization.serialize(s, B)
+
+    # serialize forward dictionary
+    return Serialization.serialize(s, b.f)
+end
+
+function Serialization.deserialize(
+    s::Serialization.AbstractSerializer, ::Type{B}
+) where {B<:Bijection}
+    f = Serialization.deserialize(s)
+    return B(f)
 end
 
 include("composition.jl")

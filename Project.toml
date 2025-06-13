@@ -6,13 +6,7 @@ authors = [
 ]
 version = "0.2.2"
 
-[weakdeps]
-Serialization = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
-
-[extensions]
-BijectionsSerializationExt = "Serialization"
-
-[extras]
+[deps]
 Serialization = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
 [compat]
