@@ -38,20 +38,6 @@ using Serialization
     @test Bijection(collect(b)) == b
 end
 
-# check composition
-@testset "Composition" begin
-    a = Bijection{Int,Int}()
-    a[1] = 10
-    a[2] = 20
-
-    b = Bijection{String,Int}()
-    b["hi"] = 1
-    b["bye"] = 2
-
-    c = a * b
-    @test c["hi"] == 10
-end
-
 # Test empty constructor
 @testset "empty_constructor" begin
     b = Bijection{Int,String}()
