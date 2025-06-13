@@ -12,6 +12,7 @@ There are two functions that take a `Bijection` and return a new
 Given a `Bijection` `b`, calling `inv(b)` creates a new `Bijection`
 that is the inverse of `b`. The new `Bijection` is completely independent
 of the original, `b`. Changes to one do not affect the other:
+
 ```
 julia> b = Bijection{Int,String}()
 Bijection Dict{Int64, String}()
@@ -80,3 +81,15 @@ julia> for (x,y) in b; println("$x --> $y"); end
 1 --> alpha
 ```
 
+## Composition
+
+Given two `Bijection`s `a` and `b`, their composition `c = a ∘ b` or `c = compose(a, b)` is a new `Bijection` with the property that `c[x] = a[b[x]]` for all `x` in the
+domain of `b`.
+
+```
+julia> a = Bijection{Int,Int}(1 => 10, 2 => 20);
+julia> b = Bijection{String,Int}("hi" => 1, "bye" => 2);
+julia> c = a ∘ b;
+julia> c["hi"]
+10
+```
