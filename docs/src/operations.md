@@ -89,3 +89,19 @@ using Bijections # hide
 b = Bijection(1 => "alpha", 2 => "beta", 3 => "gamma");
 for (x, y) in b; println("$x --> $y"); end
 ```
+
+## Composition
+
+Given two `Bijection`s `a` and `b`, their composition `c = a ∘ b` or `c = compose(a, b)` is a new `Bijection` with the property that `c[x] = a[b[x]]` for all `x` in the
+domain of `b`.
+
+```jldoctest
+julia> a = Bijection{Int,Int}(1 => 10, 2 => 20);
+
+julia> b = Bijection{String,Int}("hi" => 1, "bye" => 2);
+
+julia> c = a ∘ b;
+
+julia> c["hi"]
+10
+```
