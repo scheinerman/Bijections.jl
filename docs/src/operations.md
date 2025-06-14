@@ -1,3 +1,9 @@
+```@meta
+DocTestSetup = quote
+    using Bijections
+end
+```
+
 # Operations
 
 
@@ -9,12 +15,14 @@ There are two functions that take a `Bijection` and return a new
 [`inv`](@ref) and [`active_inv`](@ref).
 
 ### Independent inverse: `inv`
+
 Given a `Bijection` `b`, calling `inv(b)` creates a new `Bijection`
 that is the inverse of `b`. The new `Bijection` is completely independent
 of the original, `b`. Changes to one do not affect the other:
-```
+
+```jldoctest
 julia> b = Bijection{Int,String}()
-Bijection Dict{Int64, String}()
+Bijection{Int64, String, Dict{Int64, String}, Dict{String, Int64}}()
 
 julia> b[1] = "alpha"
 "alpha"
@@ -23,7 +31,7 @@ julia> b[2] = "beta"
 "beta"
 
 julia> bb = inv(b)
-Bijection Dict{String, Int64} with 2 entries:
+Bijection{String, Int64, Dict{String, Int64}, Dict{Int64, String}} with 2 entries:
   "alpha" => 1
   "beta"  => 2
 
@@ -38,6 +46,7 @@ julia> b[3] = "gamma"
 
 julia> bb["gamma"]
 ERROR: KeyError: key "gamma" not found
+[...]
 ```
 
 ### Active inverse: `active_inv`
@@ -47,9 +56,9 @@ case the original and the inverse are actively tied together.
 That is, modification of one immediately affects the other.
 The two `Bijection`s remain inverses no matter how either is modified.
 
-```
+```jldoctest
 julia> b = Bijection{Int,String}()
-Bijection Dict{Int64, String}()
+Bijection{Int64, String, Dict{Int64, String}, Dict{String, Int64}}()
 
 julia> b[1] = "alpha"
 "alpha"
@@ -58,7 +67,7 @@ julia> b[2] = "beta"
 "beta"
 
 julia> bb = active_inv(b)
-Bijection Dict{String, Int64} with 2 entries:
+Bijection{String, Int64, Dict{String, Int64}, Dict{Int64, String}} with 2 entries:
   "alpha" => 1
   "beta"  => 2
 
@@ -73,10 +82,10 @@ julia> bb["gamma"]
 
 `Bijection`s can be used in a `for` statement just like Julia
 dictionaries:
-```
-julia> for (x,y) in b; println("$x --> $y"); end
-2 --> beta
-3 --> gamma
-1 --> alpha
-```
 
+```@repl example
+# The order of iteration is not guaranteed, so this can't be a doctest # hide
+using Bijections # hide
+b = Bijection(1 => "alpha", 2 => "beta", 3 => "gamma");
+for (x, y) in b; println("$x --> $y"); end
+```
