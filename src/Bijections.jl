@@ -167,7 +167,7 @@ end
 
 function dict_inverse(d::D) where {D<:AbstractDict}
     allunique(values(d)) || throw(ArgumentError("dict is not bijective"))
-    return inverse_dict_type(D)(reverse.(collect(d))...)
+    return inverse_dict_type(D)(reverse.(collect(d)))
 end
 
 function dict_inverse(d::Base.ImmutableDict{K,V}) where {K,V}
