@@ -88,6 +88,13 @@ end
     @test length(b) == 2
     @test b["one"] == 1
     @test b["two"] == 2
+
+    # test construction from ImmutableDict
+    d = Base.ImmutableDict(1 => "one", 2 => "two")
+    b = Bijection(d)
+    @test length(b) == 2
+    @test b[1] == "one"
+    @test b[2] == "two"
 end
 
 # Test inv function
