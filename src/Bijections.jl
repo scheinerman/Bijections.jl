@@ -167,7 +167,18 @@ end
 
 function dict_inverse(d::D) where {D<:AbstractDict}
     allunique(values(d)) || throw(ArgumentError("dict is not bijective"))
-    return inverse_dict_type(D)(reverse.(collect(d)))
+    return inverse_dict_type(D)(reverse.(collect(d))...)
+end
+
+function dict_inverse(d::Base.ImmutableDict{K,V}) where {K,V}
+    # ImmutableDict does not have a ImmutableDict{K,V}(pairs...) constructor
+    # The version of the constructor with type parameters was overlooked in
+    # https://github.com/JuliaLang/julia/issues/35863
+    d_inv = Base.ImmutableDict{V,K}()
+    for (k, v) in reverse.(collect(d))
+        d_inv = Base.ImmutableDict{V,K}(d_inv, k, v)
+    end
+    return d_inv
 end
 
 """
