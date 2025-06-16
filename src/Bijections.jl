@@ -2,7 +2,7 @@ module Bijections
 
 using Serialization: Serialization
 
-export Bijection, active_inv, inverse, hasvalue
+export Bijection, active_inv, inverse, hasvalue, compose
 
 struct Bijection{K,V,F,Finv} <: AbstractDict{K,V}
     f::F          # map from domain to range
@@ -279,5 +279,59 @@ function Serialization.deserialize(
     f = Serialization.deserialize(s)
     return B(f)
 end
+
+# WARN this uses internals so it's dangerous!
+"""
+    C = composed_dict_type(A::Type{<:AbstractDict}, B::Type{<:AbstractDict})
+
+Returns the type of the forward dictionary of `(a ∘ b)` where `A` and `B` are
+the types of the forward-dictionaries of `a` and `b`, respectively.
+
+For any combination of a `IdDict` and a `Dict`, the result will be an `IdDict`.
+Otherwise, return `A` with the types of keys and values adjusted so that the
+resulting dict maps keys of `b` to values of `a`.
+"""
+function composed_dict_type(
+    A::Type{<:AbstractDict{AK,AV}}, ::Type{<:AbstractDict{BK,BV}}
+) where {AK,AV,BK,BV}
+    return A.name.wrapper{BK,AV}
+end
+function composed_dict_type(::Type{Dict{AK,AV}}, ::Type{Dict{BK,BV}}) where {AK,AV,BK,BV}
+    Dict{BK,AV}
+end
+function composed_dict_type(::Type{Dict{AK,AV}}, ::Type{IdDict{BK,BV}}) where {AK,AV,BK,BV}
+    IdDict{BK,AV}
+end
+function composed_dict_type(::Type{IdDict{AK,AV}}, ::Type{Dict{BK,BV}}) where {AK,AV,BK,BV}
+    IdDict{BK,AV}
+end
+function composed_dict_type(
+    ::Type{IdDict{AK,AV}}, ::Type{IdDict{BK,BV}}
+) where {AK,AV,BK,BV}
+    IdDict{BK,AV}
+end
+
+"""
+    c = (∘)(a::Bijection, b::Bijection)
+    c = compose(a, b)
+
+The result of `a ∘ b` or `compose(a, b)` is a new `Bijection` `c` such that
+`c[x]` is `a[b[x]]` for `x` in the domain of `b`. The internal type of the
+    forward mapping is determined by [`composed_dict_type`](@ref), and the type
+    of the backward mapping is determined by [`inverse_dict_type`](@ref).
+"""
+function compose(
+    a::Bijection{AK,AV,AF,AFinv}, b::Bijection{BK,BV,BF,BFinv}
+) where {AK,AV,AF,AFinv,BK,BV,BF,BFinv}
+    CF = composed_dict_type(AF, BF)
+    CFinv = inverse_dict_type(CF)
+    c = Bijection{BK,AV,CF,CFinv}()
+    for x in keys(b)
+        c[x] = a[b[x]]
+    end
+    return c
+end
+
+Base.:(∘)(a::Bijection, b::Bijection) = compose(a, b)
 
 end # end of module Bijections

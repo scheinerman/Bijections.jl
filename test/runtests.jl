@@ -38,6 +38,113 @@ using Serialization
     @test Bijection(collect(b)) == b
 end
 
+# check composition
+@testset "Composition" begin
+    a = Bijection{Int,Float64}()
+    a[1] = 10.0
+    a[2] = 20.0
+
+    b = Bijection{String,Int}()
+    b["hi"] = 1
+    b["bye"] = 2
+
+    c = a ∘ b
+    @test c["hi"] == 10.0
+    @test c(10.0) == "hi"
+
+    @test compose(a, b) == c
+
+    # Mutable objects (1)
+    # - mutable keys/values in `a`, non-mutable keys/values in `b`
+
+    a = Bijection{
+        Int64,Vector{Int64},IdDict{Int64,Vector{Int64}},IdDict{Vector{Int64},Int64}
+    }()
+    A₁ = [1, 2, 3]
+    A₂ = [3, 4, 5]
+    a[1] = A₁
+    a[2] = A₂
+
+    c = a ∘ b
+    @test c isa Bijection{
+        String,Vector{Int64},IdDict{String,Vector{Int64}},IdDict{Vector{Int64},String}
+    }
+    @test c["hi"] === A₁
+    @test c(A₁) == "hi"
+    A₁[1] = 10
+    @test c["hi"] === A₁
+    @test c(A₁) == "hi"
+    @test_throws KeyError c([1, 2, 3])
+
+    # Mutable objects (2)
+    # - Mutable keys/values both in `a` and `b`
+
+    a = Bijection{
+        Int64,Vector{Int64},IdDict{Int64,Vector{Int64}},IdDict{Vector{Int64},Int64}
+    }()
+    A₁ = [1, 2, 3]
+    A₂ = [3, 4, 5]
+    a[1] = A₁
+    a[2] = A₂
+
+    b = Bijection{
+        Vector{Int64},Int64,IdDict{Vector{Int64},Int64},IdDict{Int64,Vector{Int64}}
+    }()
+    b₁ = [1, 2, 3]
+    b₂ = [3, 4, 5]
+    @test b₁ ≢ A₁
+    @test b₂ ≢ A₂
+    b[b₁] = 1
+    b[b₂] = 2
+
+    c = a ∘ b
+    @test c[b₁] === A₁
+    @test c(A₁) === b₁
+
+    b₁[1] = 10
+    @test c[b₁] === A₁
+
+    # Mutable objects (3)
+    # - Non-mutable keys/values in `a`, mutable keys/values in `b`
+
+    a = Bijection{Int,Float64}()
+    a[1] = 10.0
+    a[2] = 20.0
+
+    b = Bijection{
+        Vector{Int64},Int64,IdDict{Vector{Int64},Int64},Dict{Int64,Vector{Int64}}
+    }()
+    b₁ = [1, 2, 3]
+    b₂ = [3, 4, 5]
+    b[b₁] = 1
+    b[b₂] = 2
+
+    c = a ∘ b
+    @test c isa Bijection{
+        Vector{Int64},Float64,IdDict{Vector{Int64},Float64},IdDict{Float64,Vector{Int64}}
+    }
+    @test c[b₁] == 10.0
+    @test c(10.0) === b₁
+
+    b₁[1] = 10
+    @test c[b₁] == 10.0
+
+    # ImmutableDict (testing the fallback of composed_dict_type)
+
+    a = Bijection{Int,Float64}()
+    a[1] = 10.0
+    a[2] = 20.0
+
+    b = Bijection(
+        Base.ImmutableDict("hi" => 1, "bye" => 2), Base.ImmutableDict(1 => "hi", 2 => "bye")
+    )
+
+    c = a ∘ b
+    @test c isa Bijection{String,Float64,Dict{String,Float64},Dict{Float64,String}}
+    @test c["hi"] == 10.0
+    @test c(10.0) == "hi"
+end
+
 # Test empty constructor
 @testset "empty_constructor" begin
     b = Bijection{Int,String}()
