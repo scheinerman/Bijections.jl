@@ -4,7 +4,7 @@ authors = [
     "Ed Scheinerman <ers@jhu.edu>",
     "Sergio Sánchez Ramírez <sergio.sanchez.ramirez+git@bsc.es>",
 ]
-version = "0.2.2"
+version = "1.0.0-dev"
 
 [deps]
 Serialization = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
