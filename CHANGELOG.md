@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Moved project to the [JuliaCollections org](https://github.com/JuliaCollections)
 * Optimized `Serialization.serialize` size by saving only the forward dictionary ([#32][], [#34][]).
 
+### Fixed
+
+* Fixed instantiation of a `Bijection` from an `ImmutableDict` ([#43][], [#44][])
+
 ### Breaking
 
 * Removed `domain` and `image` functions. Use `Base.keys` and `Base.values` instead ([#27][], [#28][]).
@@ -51,6 +55,7 @@ It is likely that code using version 0.1 will not need to be modified to work wi
 
 See https://github.com/JuliaCollections/Bijections.jl/releases for changelog of `v0.1.x` releases.
 
+[1.0.0]: https://github.com/JuliaCollections/Bijections.jl/releases/tag/v1.0.0
 [0.2.2]: https://github.com/JuliaCollections/Bijections.jl/releases/tag/v0.2.2
 [0.2.1]: https://github.com/JuliaCollections/Bijections.jl/releases/tag/v0.2.1
 [0.2.0]: https://github.com/JuliaCollections/Bijections.jl/releases/tag/v0.2.0
@@ -61,3 +66,5 @@ See https://github.com/JuliaCollections/Bijections.jl/releases for changelog of 
 [#34]: https://github.com/JuliaCollections/Bijections.jl/pull/34
 [#39]: https://github.com/JuliaCollections/Bijections.jl/pull/39
 [#41]: https://github.com/JuliaCollections/Bijections.jl/pull/41
+[#43]: https://github.com/JuliaCollections/Bijections.jl/issues/43
+[#44]: https://github.com/JuliaCollections/Bijections.jl/pull/44
